@@ -1,11 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:vrit_app/core/api/config.dart';
 import 'package:vrit_app/core/api/env.dart';
+import 'package:vrit_app/core/network/export_network.dart';
 
 class UrlDataSource {
   final Dio _dio = Dio();
 
   Future<String> getShortUrl(String longUrl) async {
+    bool isConnected = await isInternetConnected();
+    if (!isConnected) {
+      throw NoInternetException();
+    }
     try {
       final response = await _dio.post(
         ApiEndpoint.baseUrl,
@@ -23,7 +28,7 @@ class UrlDataSource {
 
       return response.data['result_url'];
     } on DioException catch (e) {
-      throw Exception(e.message);
+      throw ApiRequestException(e.message.toString());
     }
   }
 }

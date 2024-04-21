@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vrit_app/src/main/presentation/short_url_screen.dart';
+import 'package:vrit_app/src/main/presentation/result_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -21,8 +22,15 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  void _pasteFromClipboard() async {
+    final data = await Clipboard.getData(Clipboard.kTextPlain);
+    destinationUrlController.text = data?.text ?? '';
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return GestureDetector(
       onTap: () async => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -37,7 +45,7 @@ class _MainScreenState extends State<MainScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 60.h),
+                SizedBox(height: 100.h),
                 Text(
                   'Enter or Paste the URL to shorten',
                   style: TextStyle(
@@ -66,8 +74,14 @@ class _MainScreenState extends State<MainScreen> {
                               destinationUrlController.clear();
                             },
                             icon: const Icon(Icons.close),
-                          )
-                        : null,
+                          ) :
+                    IconButton(
+                      onPressed: (){
+                        _pasteFromClipboard();
+                      },
+                      icon: const Icon(Icons.content_paste,
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(height: 60.h),
@@ -78,7 +92,7 @@ class _MainScreenState extends State<MainScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => ShortUrlScreen(longUrl: destinationUrlController.text),
+                          builder: (_) => ResultScreen(longUrl: destinationUrlController.text),
                         ),
                       );
                     }
@@ -86,7 +100,16 @@ class _MainScreenState extends State<MainScreen> {
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity, 50.h),
                   ),
-                  child: const Text('Shorten'),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('Shorten'),
+                      SizedBox(width: 10.w,),
+                      Visibility(
+                          visible: destinationUrlController.text.isNotEmpty,
+                          child: const Icon(Icons.arrow_forward, size: 20,)),
+                    ],
+                  ),
                 )
               ],
             ),

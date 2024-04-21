@@ -9,9 +9,9 @@ import 'package:vrit_app/src/main/presentation/provider/short_url_provider.dart'
 import 'package:share_plus/share_plus.dart';
 
 
-class ShortUrlScreen extends ConsumerWidget {
+class ResultScreen extends ConsumerWidget {
   final String longUrl;
-  const ShortUrlScreen({super.key, required this.longUrl});
+  const ResultScreen({super.key, required this.longUrl});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,15 +33,16 @@ class ShortUrlScreen extends ConsumerWidget {
                     data: data,
                     version: QrVersions.auto,
                     size: 220.w,
+                    backgroundColor: Theme.of(context).colorScheme.onSurface,
                   ),
                   SizedBox(height: 30.h,),
                   Align(
                     alignment: Alignment.center,
                     child: Container(
                         padding: EdgeInsets.all(10.h),
-                        width: 300.w,
+                        width: 332.w,
                         decoration: BoxDecoration(
-                          color: Colors.grey.shade100,
+                          color: Theme.of(context).colorScheme.surface,
                           borderRadius: BorderRadius.circular(8.r),
                         ),
                         child: Center(
@@ -97,7 +98,14 @@ class ShortUrlScreen extends ConsumerWidget {
                 ],
               );
             },
-            error: (error, stackTrace) => Center(child: Text('$error'),),
+            error: (error, stackTrace) {
+              return Center(
+                child: Text(
+                  error.toString(),
+                  textAlign: TextAlign.center,
+                ),
+              );
+            },
             loading: () => const Center(child: CircularProgressIndicator.adaptive())
         )
       ),
