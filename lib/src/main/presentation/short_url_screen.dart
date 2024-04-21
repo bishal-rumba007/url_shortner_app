@@ -72,9 +72,8 @@ class ShortUrlScreen extends ConsumerWidget {
                             context,
                             Icons.share_outlined,
                             "Share",
-                                () async{
-                              final shareData = "Check out this link: $data";
-                              await Share.share(shareData);
+                                () {
+                              Share.share(data);
                             },
                           ),
                         ),

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vrit_app/src/main/data/url_repository_impl.dart';
-import 'package:vrit_app/src/main/presentation/provider/short_url_provider.dart';
 import 'package:vrit_app/src/main/presentation/short_url_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -40,11 +37,15 @@ class _MainScreenState extends State<MainScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 20),
-                const Text(
+                SizedBox(height: 60.h),
+                Text(
                   'Enter or Paste the URL to shorten',
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 TextFormField(
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -69,7 +70,7 @@ class _MainScreenState extends State<MainScreen> {
                         : null,
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 60.h),
                 ElevatedButton(
                   onPressed: () async {
                     if (formKey.currentState!.validate()) {
