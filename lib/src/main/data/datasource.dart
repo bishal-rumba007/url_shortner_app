@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:vrit_app/core/api/config.dart';
-import 'package:vrit_app/core/api/env.dart';
+import 'package:vrit_app/core/api/api_keys.dart';
 import 'package:vrit_app/core/network/export_network.dart';
 
 class UrlDataSource {
